@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Icon Generator</title>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const sizes = [16, 48, 128];
+    
+    sizes.forEach(size => {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#4CAF50';
+      const radius = size / 8;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Draw M
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = Math.max(2, size / 16);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      const margin = size / 4;
+      const x1 = margin;
+      const x2 = size - margin;
+      const y1 = margin;
+      const y2 = size - margin;
+      const midX = size / 2;
+      const midY = size / 2;
+      
+      ctx.beginPath();
+      ctx.moveTo(x1, y2);
+      ctx.lineTo(x1, y1);
+      ctx.lineTo(midX, midY);
+      ctx.lineTo(x2, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      
+      // Download link
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL();
+      link.textContent = `Download icon${size}.png`;
+      link.style.display = 'block';
+      link.style.margin = '10px';
+      document.body.appendChild(link);
+      
+      // Show canvas
+      canvas.style.border = '1px solid #ccc';
+      canvas.style.margin = '10px';
+      document.body.appendChild(canvas);
+    });
+  </script>
+  <p>右クリックして各アイコンを保存してください。</p>
+</body>
+</html>
